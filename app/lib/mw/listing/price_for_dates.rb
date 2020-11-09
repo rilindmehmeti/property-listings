@@ -52,8 +52,9 @@ module Mw
       def map_prices
         mapping = {}
         seasonal_rates.pluck(:start_date, :end_date, :daily_rate).map do |price|
-          start_date, end_date, daily_rate = price
-          dates = (start_date..end_date).to_a
+          _start_date, _end_date, daily_rate = price
+          next if _start_date > end_date || start_date > _end_date
+          dates = (_start_date.._end_date).to_a
           dates.pop
           mapping[daily_rate] = dates
         end
