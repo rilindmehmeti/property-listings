@@ -1,0 +1,16 @@
+<table class="table">
+  <thead>
+    <tr>
+      <td scope="col">Listing</td>
+      <td scope="col">Price</td>
+    </tr>
+  </thead>
+  <tbody>
+  <% @listings.each do |listing| %>
+  <tr>
+    <td><%= listing.title %></td>
+    <td><%= listing.price %></td>
+  </tr>
+  <% end %>
+  </tbody>
+</table>

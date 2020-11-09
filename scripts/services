@@ -1,0 +1,45 @@
+#!/usr/bin/env sh
+
+# Start/Stop/Restart/rebuild docker compose stack
+
+usage() {
+    cat <<EOM
+    Usage:
+    $(basename $0) start|stop|restart|up|down|rebuild|logs
+EOM
+    exit 0
+}
+
+[ -z $1 ] && { usage; }
+
+cd "$(dirname "$0")/.."
+case $1 in
+start)
+  docker-compose -p listings -f docker-compose.services.yml start
+  ;;
+stop)
+  docker-compose -p listings -f docker-compose.services.yml stop
+  ;;
+restart)
+  ./scripts/services stop
+  ./scripts/services up
+  ;;
+up)
+  mkdir -p .bundle .postgres
+  docker-compose -p listings -f docker-compose.services.yml up -d
+  ;;
+down)
+  docker-compose -p listings -f docker-compose.services.yml down
+  ;;
+rebuild)
+  ./scripts/services down
+  docker-compose -p listings -f docker-compose.services.yml build
+  ./scripts/services up
+  ;;
+logs)
+  docker-compose -p listings -f docker-compose.services.yml logs -f
+  ;;
+*)
+  usage;
+  ;;
+esac
