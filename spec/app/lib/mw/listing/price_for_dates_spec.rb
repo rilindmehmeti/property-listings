@@ -17,7 +17,6 @@ describe Mw::Listing::PriceForDates do
     context "when listing has seasonal rate" do
       let(:seasonal_start_date) { Date.parse("01-07-2021") }
       let(:seasonal_end_date)   { Date.parse("01-09-2021") }
-
       let!(:seasonal_rate)      { FactoryBot.create(:seasonal_rate, listing: listing, start_date: seasonal_start_date, end_date: seasonal_end_date, daily_rate: seasonal_price) }
 
       it "calculate price based on default price when search dates are outside the seasonal rate" do
@@ -54,11 +53,22 @@ describe Mw::Listing::PriceForDates do
       context "when dates include the whole seasonal rate" do
         let(:seasonal_start_date) { Date.parse("01-07-2021") }
         let(:seasonal_end_date)   { Date.parse("10-07-2021") }
+
         let(:start_date)          { Date.parse("30-06-2021") }
         let(:end_date)            { Date.parse("12-07-2021") }
 
         it "calculates the price correctly for combined seasonal rate and default rate" do
           expect(result).to eq((2 * default_price) + ( 10 * seasonal_price ))
+        end
+
+        context "with multiple seasonal rates" do
+          let(:start_date)            { Date.parse("30-06-2021") }
+          let(:end_date)              { Date.parse("20-07-2021") }
+          let!(:second_seasonal_rate) { FactoryBot.create(:seasonal_rate, listing: listing, start_date: Date.parse("15-07-2021"), end_date: Date.parse("21-07-2021"), daily_rate: 300) }
+
+          it "calculates the price correctly for combined seasonal rates and default rate" do
+            expect(result).to eq((5 * default_price) + ( 10 * seasonal_price ) + ( 5 * 300 ))
+          end
         end
       end
     end
