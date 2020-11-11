@@ -4,7 +4,7 @@ describe Mw::Listing::FindSeasonalDaysIntersection do
   let(:seasonal_start_date) { Date.parse("01-06-2021") }
   let(:seasonal_end_date)   { Date.parse("10-06-2021") }
 
-  subject {described_class.new(search_start_date, search_end_date, seasonal_start_date, seasonal_end_date).call }
+  subject { described_class.new(search_start_date, search_end_date, seasonal_start_date, seasonal_end_date).call }
 
   describe ".call" do
     it "returns 0 when end search date is earlier than seasonal start date" do

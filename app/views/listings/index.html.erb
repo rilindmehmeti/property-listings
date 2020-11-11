@@ -1,16 +1,25 @@
-<table class="table">
-  <thead>
-    <tr>
-      <td scope="col">Listing</td>
-      <td scope="col">Price</td>
-    </tr>
-  </thead>
-  <tbody>
-  <% @listings.each do |listing| %>
-  <tr>
-    <td><%= listing.title %></td>
-    <td><%= listing.price %></td>
-  </tr>
-  <% end %>
-  </tbody>
-</table>
+<div class="row">
+  <div class="col-12 pt-5 pb-5">
+    <h5>Searching listings <%= @start_date %> to <%= @end_date %></h5>
+  </div>
+  <div class="col-12 pb-5">
+    <table class="table table-striped">
+      <thead class="thead-light">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Listing</th>
+        <th scope="col">Price</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @listings.each do |listing| %>
+        <tr>
+          <td><%= listing.id %></td>
+          <td><%= listing.title %></td>
+          <td><%= listing.price %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

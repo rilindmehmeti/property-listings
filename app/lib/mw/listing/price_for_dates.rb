@@ -29,14 +29,18 @@ module Mw
       def mixed_price_calculation
         total_price = 0
         total_days = search_days
-        seasonal_rates.pluck(:start_date, :end_date, :daily_rate).map do |price|
-          _start_date, _end_date, daily_rate = price
+        formatted_seasonal_rates.map do |seasonal_rate|
+          _start_date, _end_date, daily_rate = seasonal_rate
           days = FindSeasonalDaysIntersection.new(start_date, end_date, _start_date, _end_date).call
           total_days -= days
           total_price += (days * daily_rate)
         end
         total_price += (total_days * default_daily_rate)
         total_price
+      end
+
+      def formatted_seasonal_rates
+        @formatted_seasonal_rates ||= seasonal_rates.pluck(:start_date, :end_date, :daily_rate)
       end
     end
   end

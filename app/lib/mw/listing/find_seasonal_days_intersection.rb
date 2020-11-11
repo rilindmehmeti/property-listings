@@ -13,7 +13,7 @@ module Mw
       def call
         days = 0
         # when there is no intersection with seasonal date range
-        return days if seasonal_start_date >= search_end_date || search_start_date > seasonal_end_date || invalid?
+        return days if invalid? || seasonal_start_date >= search_end_date || search_start_date > seasonal_end_date
         if seasonal_end_date > search_end_date && search_start_date <= seasonal_start_date
           # When search date is outside the seasonal date range, but search end date is inside it
           days = (search_end_date - seasonal_start_date).to_i

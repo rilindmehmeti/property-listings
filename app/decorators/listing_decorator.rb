@@ -5,7 +5,7 @@ class ListingDecorator < Draper::Decorator
     Mw::Listing::PriceForDates.new(object, start_date, end_date).call
   end
 
-  private
+  protected
 
   def start_date
     context[:start_date]
